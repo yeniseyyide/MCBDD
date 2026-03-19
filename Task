@@ -1,0 +1,32 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Fixed sensitivity
+sensitivity = 0.99
+
+# Prevalence range
+prevalence = np.linspace(0.001, 0.5, 500)
+
+# Different specificity values
+specificities = [0.99, 0.999, 0.9999, 0.99999]
+
+plt.figure(figsize=(10, 6))
+
+for spec in specificities:
+    false_positive_rate = 1 - spec
+    
+    # Bayes formula
+    numerator = sensitivity * prevalence
+    denominator = numerator + false_positive_rate * (1 - prevalence)
+    
+    posterior = numerator / denominator
+    
+    plt.plot(prevalence, posterior, label=f"Specificity = {spec*100:.3f}%")
+
+plt.xlabel("Prevalence")
+plt.ylabel("P(Infected | Positive)")
+plt.title("Effect of Prevalence and Specificity on Posterior Probability")
+plt.legend()
+plt.grid()
+
+plt.show()
